@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model user {
+  id        Int        @id @default(autoincrement())
+  email     String?
+  userName  String?
+  fullName  String?
+  avatar    String?
+  status    Int?
+  deleted   Int?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now())
+  userMeta  userMeta[]
+  post      post[]
+}
+
+model userMeta {
+  id          Int     @id @default(autoincrement())
+  keyUserMeta String?
+  value       Int?
+
+  user   user @relation(fields: [userId], references: [id])
+  userId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model post {
+  id      Int     @id @default(autoincrement())
+  title   String?
+  content String?
+
+  user   user @relation(fields: [userId], references: [id])
+  userId Int
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now())
+  postMeta  postMeta[]
+}
+
+model postMeta {
+  id          Int     @id @default(autoincrement())
+  keyPostMeta String?
+  value       Int
+
+  post   post @relation(fields: [postId], references: [id])
+  postId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
