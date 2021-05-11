@@ -1,11 +1,11 @@
 import http from 'http';
 import express from 'express';
 import bodyParser from 'body-parser';
-
-const morgan = require('morgan');
+import config from './config/config';
+import morgan from 'morgan';
 
 /** App list */
-import router_v1 from './routes/router_v1';
+import router from './routes/index';
 
 const App = express();
 
@@ -30,10 +30,10 @@ App.use((req, res, next) => {
 });
 
 /** Routes */
-App.use('/v1', router_v1);
+App.use('/api', router);
 
 /** Error */
-App.use((req, res) => {
+App.use((res: any) => {
     const error = new Error('not found');
 
     return res.status(404).json({
@@ -43,6 +43,6 @@ App.use((req, res) => {
 
 /** Create the api */
 const httpServer = http.createServer(App);
-httpServer.listen(process.env.PORT, () => {
-    console.info(`Server listen port ${process.env.PORT}`);
+httpServer.listen(config.port, () => {
+    console.info(`Server listen port ${config.port}`);
 });

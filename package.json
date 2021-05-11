@@ -2,19 +2,21 @@
     "name": "ktcity-be-mailuan",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "src/app.ts",
     "dependencies": {
-        "express": "^4.17.1",
         "body-parser": "^1.19.0",
+        "dotenv": "^9.0.2",
+        "express": "^4.17.1",
         "morgan": "^1.10.0"
     },
     "devDependencies": {
+        "@types/body-parser": "^1.19.0",
         "@types/express": "^4.17.11",
         "@types/morgan": "^1.9.2",
-        "@types/node": "^14.14.37"
+        "@types/node": "^14.14.44"
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "nodemon src/app.ts"
     },
     "repository": {
         "type": "git",
