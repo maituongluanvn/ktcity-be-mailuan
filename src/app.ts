@@ -33,7 +33,7 @@ App.use((req, res, next) => {
 App.use('/api', router);
 
 /** Error */
-App.use((res: any) => {
+App.use((req, res) => {
     const error = new Error('not found');
 
     return res.status(404).json({
