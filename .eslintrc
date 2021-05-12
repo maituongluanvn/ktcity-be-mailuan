@@ -1,5 +1,6 @@
 {
     "extends": "eslint:recommended",
     "parser": "babel-eslint",
-    "eslint comma-dangle": ["error", "always"]
+    "eslint comma-dangle": ["error", "always"],
+    "eslint no-unused-vars": "error"
 }
