@@ -52,4 +52,36 @@ const putUser = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-export { getUser, putUser };
+const createUser = async (req: Request, res: Response, next: NextFunction) => {
+    const { body = {} } = req as any;
+    try {
+        await prisma.user.create({
+            data: { ...body }
+        });
+        updateSuccess(res);
+    } catch (err) {
+        return res.status(400).json({
+            status: false,
+            message: err
+        });
+    }
+};
+
+const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params as any;
+    try {
+        await prisma.user.delete({
+            where: {
+                id: +id
+            }
+        });
+        updateSuccess(res);
+    } catch (err) {
+        return res.status(400).json({
+            status: false,
+            message: err
+        });
+    }
+};
+
+export { getUser, putUser, createUser, deleteUser };
