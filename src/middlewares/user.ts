@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 
 const getUserMW = async (req: Request, res: Response, next: NextFunction) => {
     let { keyword = '', skip = 0, take = 5 } = req.query as any;
-    if (+take > 5) {
+    if (+take > 5 || !take) {
         return res.status(400).json({
             status: false,
             message: 'query string is not validate'
