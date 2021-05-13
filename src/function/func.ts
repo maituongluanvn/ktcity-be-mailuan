@@ -1,10 +1,17 @@
 import { Request, Response } from 'express';
 
-function resSuccess(res: Response, data: any, total: number, code: number) {
+function resGetManySuccess(res: Response, data: any, total: number, code: number) {
     return res.status(code).json({
         status: true,
         data: data,
         total: total
+    });
+}
+
+function resGetDetailSuccess(res: Response, data: any, code: number) {
+    return res.status(code).json({
+        status: true,
+        data: data
     });
 }
 
@@ -14,4 +21,4 @@ function updateSuccess(res: Response) {
     });
 }
 
-export { resSuccess, updateSuccess };
+export { resGetManySuccess, resGetDetailSuccess, updateSuccess };

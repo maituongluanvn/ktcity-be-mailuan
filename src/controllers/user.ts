@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { resSuccess, updateSuccess } from '../function/func';
+import { resGetManySuccess, resGetDetailSuccess, updateSuccess } from '../function/func';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient({
     log: ['query', 'info', `warn`, `error`]
@@ -21,7 +21,24 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
             skip: +skip * +take,
             take: +take
         });
-        resSuccess(res, data, total, 200);
+        resGetManySuccess(res, data, total, 200);
+    } catch (err) {
+        return res.status(400).json({
+            status: false,
+            message: err.message
+        });
+    }
+};
+
+const getUserDetail = async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params as any;
+    try {
+        const data = await prisma.user.findUnique({
+            where: {
+                id: id
+            }
+        });
+        resGetDetailSuccess(res, data, 200);
     } catch (err) {
         return res.status(400).json({
             status: false,
@@ -82,4 +99,4 @@ const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-export { getUser, putUser, createUser, deleteUser };
+export { getUser, getUserDetail, putUser, createUser, deleteUser };
