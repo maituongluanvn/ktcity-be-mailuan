@@ -6,23 +6,19 @@ const prisma = new PrismaClient({
 });
 
 const getUser = async (req: Request, res: Response, next: NextFunction) => {
-    const { keyword = '', skip = 0, take = 5 } = req.query as any;
+    const { keyword = '', skip = 0, take = 5, status } = req.query as any;
     try {
         const total = await prisma.user.count({
             where: {
-                email: {
-                    contains: keyword
-                }
+                status: +status
             }
         });
 
         const data = await prisma.user.findMany({
             where: {
-                email: {
-                    contains: keyword
-                }
+                status: +status
             },
-            skip: +skip,
+            skip: +skip * +take,
             take: +take
         });
         resSuccess(res, data, total, 200);
