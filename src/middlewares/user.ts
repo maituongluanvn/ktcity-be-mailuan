@@ -14,13 +14,22 @@ const getUserMW = async (req: Request, res: Response, next: NextFunction) => {
 
 const putUserMW = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params as any;
-    if (id) {
-        next();
-    } else {
+    let isErr = false;
+    const { body } = req;
+
+    if (body?.email) {
+        isErr = true;
+    }
+
+    if (isErr) {
         return res.status(400).json({
             status: false,
             message: 'missing ID'
         });
+    }
+
+    if (id) {
+        next();
     }
 };
 
