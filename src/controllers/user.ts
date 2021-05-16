@@ -73,11 +73,20 @@ const putUser = async (req: Request, res: Response, next: NextFunction) => {
 
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
     const { body = {} } = req as any;
+    const email = req.body.email as string;
+    // const {email} = body as object
     if (body.userName === '' || body.userName === null) {
-        body.userName = body.fullName.trim();
+        body.userName = body.fullName.replace(/ /g, '');
     }
-    console.log(body);
+
     try {
+        // findUnique không dùng được
+        // const isExist = await prisma.user.findUnique({
+        //     where: {
+        //         email: 'asd'
+        //     }
+        // });
+
         await prisma.user.create({
             data: { ...body }
         });

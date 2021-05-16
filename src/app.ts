@@ -16,7 +16,6 @@ App.use(morgan('dev'));
 App.use(bodyParser.urlencoded({ extended: false }));
 App.use(bodyParser.json());
 
-/** Rules of our API */
 App.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
