@@ -6,7 +6,7 @@ const prisma = new PrismaClient({
 });
 
 const getUser = async (req: Request, res: Response, next: NextFunction) => {
-    const { keyword = '', skip = 0, take = 5, status } = req.query as any;
+    const { createdAt = 'desc', skip = 0, take = 5, status } = req.query as any;
     try {
         const total = await prisma.user.count({
             where: {
@@ -18,8 +18,12 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
             where: {
                 status: +status
             },
+
             skip: +skip * +take,
-            take: +take
+            take: +take,
+            orderBy: {
+                createdAt: createdAt
+            }
         });
         resGetManySuccess(res, data, total, 200);
     } catch (err) {
@@ -69,6 +73,10 @@ const putUser = async (req: Request, res: Response, next: NextFunction) => {
 
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
     const { body = {} } = req as any;
+    if (body.userName === '' || body.userName === null) {
+        body.userName = body.fullName.trim();
+    }
+    console.log(body);
     try {
         await prisma.user.create({
             data: { ...body }

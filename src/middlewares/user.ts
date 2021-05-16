@@ -42,4 +42,13 @@ const deleteUserMW = async (req: Request, res: Response, next: NextFunction) => 
     }
 };
 
-export { getUserMW, putUserMW, deleteUserMW };
+const createUserMW = async (req: Request, res: Response, next: NextFunction) => {
+    const { email, fullName } = req.body as any;
+    if (email !== null || fullName !== null || email.trim() !== '' || fullName.trim() !== '') {
+        next();
+    } else {
+        res.status(400);
+    }
+};
+
+export { getUserMW, putUserMW, deleteUserMW, createUserMW };
